@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 //lombok, setter, getter, toString auto-generation
