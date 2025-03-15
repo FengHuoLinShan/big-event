@@ -2,7 +2,19 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com/itheima/mapper/ArticleMapper.java">
+<mapper namespace="com.itheima.mapper.ArticleMapper">
     <!--动态SQL-->
-    
+    <select id="list" resultType="com.itheima.pojo.Article">
+        select * from article
+        <where>
+            <if test="categoryId!=null">
+                category_id=#{categoryId}
+            </if>
+            <if test="state!=null">
+                and state =#{state}
+            </if>
+
+            and create_user=#{userId}
+        </where>
+    </select>
 </mapper>

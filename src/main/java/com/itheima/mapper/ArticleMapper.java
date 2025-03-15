@@ -12,6 +12,6 @@ public interface ArticleMapper {
             "values(#{title},#{content},#{coverImg},#{state},#{categoryId},#{createUser},#{createTime},#{updateTime})")
     void add(Article article);
 
-    @
+
     List<Article> list(Integer userId, Integer categoryId, String state);
 }

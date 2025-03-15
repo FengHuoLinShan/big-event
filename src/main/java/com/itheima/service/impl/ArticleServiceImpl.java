@@ -2,11 +2,11 @@ package com.itheima.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.itheima.mapper.ArticleMapper;
 import com.itheima.mapper.UserMapper;
 import com.itheima.pojo.Article;
 import com.itheima.pojo.PageBean;
-import com.itheima.pojo.Result;
 import com.itheima.pojo.User;
 import com.itheima.service.ArticleService;
 import com.itheima.utils.ThreadLocalUtil;
@@ -30,18 +30,26 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state) {
-        //创建PageBean对象
-        PageBean<Article> pb = new PageBean<>();
-        //开启分页
+    public PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state) {
+        // 开启分页
         PageHelper.startPage(pageNum, pageSize);
-        //调用Mapper
+
+        // 调用Mapper
         Map<String, Object> map = ThreadLocalUtil.get();
         Integer userId = userMapper.findByUserName((String) map.get("username")).getId();
         List<Article> as = articleMapper.list(userId, categoryId, state);
-        Page<Article> p = (Page<Article>) as;
-        return null;
+
+        // 使用 PageInfo 处理分页数据
+        PageInfo<Article> pageInfo = new PageInfo<>(as);
+
+        // 封装 PageBean
+        PageBean<Article> pb = new PageBean<>();
+        pb.setTotal(pageInfo.getTotal());
+        pb.setItems(pageInfo.getList());
+
+        return pb;
     }
+
 
     @Override
     public void add(Article article) {
